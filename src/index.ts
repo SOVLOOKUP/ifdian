@@ -17,11 +17,6 @@ export class Afdian {
     }
 
     ping = async (): Promise<AfdianResponse> => await this.#request.post("ping", { body: this.#builBody() }).json()
-    queryPlans = async (userid: string): Promise<AfdianPlanInfo[]> => {
-        const res = await ky.get(`https://ifdian.net/api/creator/get-plans?user_id=${userid}`).json()
-        // @ts-ignore
-        return res.data.list
-    }
     queryOrder = async (params: AfdianQueryOrderRequestParams): Promise<AfdianOrderResponse> => {
         // @ts-ignore
         params.out_trade_no = params.out_trade_no?.join(',')
@@ -63,6 +58,12 @@ export class Afdian {
         })()
     }
 
+}
+
+export const queryPlans = async (userid: string): Promise<AfdianPlanInfo[]> => {
+    const res = await ky.get(`https://ifdian.net/api/creator/get-plans?user_id=${userid}`).json()
+    // @ts-ignore
+    return res.data.list
 }
 
 export const createAfdian = async (opts: AfdianClientOptions) => {
