@@ -1,6 +1,7 @@
 import ky, { KyInstance } from "ky"
 import { buildSignRequest } from "./utils"
 import { AfdianClientOptions, AfdianOrderResponse, AfdianPlanInfo, AfdianQueryOrderRequestParams, AfdianQuerySponsorRequestParams, AfdianRequestParams, AfdianResponse, AfdianSponsorResponse } from "./types"
+export * from "./types"
 
 export class Afdian {
     #request: KyInstance = ky.create({
