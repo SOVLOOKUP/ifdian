@@ -1,6 +1,6 @@
 import ky, { KyInstance } from "ky"
 import { buildSignRequest } from "./utils"
-import { AfdianClientOptions, AfdianOrderResponse, AfdianPlanInfo, AfdianQueryOrderRequestParams, AfdianQuerySponsorRequestParams, AfdianRequestParams, AfdianResponse, AfdianSponsorResponse } from "./types"
+import { AfdianClientOptions, AfdianOrderResponse, AfdianPlanInfo, AfdianQueryOrderRequestParams, AfdianQuerySponsorRequestParams, AfdianRequestParams, AfdianResponse, AfdianSponsorResponse, Unwrap } from "./types"
 export * from "./types"
 
 export class Afdian {
@@ -35,6 +35,32 @@ export class Afdian {
         return await this.#request.post("query-sponsor", {
             body: this.#builBody(params)
         }).json()
+    }
+    queryAllGenerator = async<T extends typeof this.queryOrder | typeof this.querySponsor>(method: T, params: Omit<Parameters<T>["0"], "page" | "per_page">) => {
+        const first = await method({
+            page: 1,
+            ...params
+        })
+        let max = first.data.total_page
+        let result: (ReturnType<T> | Unwrap<ReturnType<T>>)[] = []
+        while (max > 1) {
+            result.push(method({
+                page: max,
+                ...params
+            }) as ReturnType<T>)
+            max--
+        }
+        result.push(first as Unwrap<ReturnType<T>>)
+        return (async function* () {
+            while (result.length > 0) {
+                const target = await result.pop()
+                if (target !== undefined) {
+                    for (const t of target.data.list) {
+                        yield t
+                    }
+                }
+            }
+        })()
     }
 
 }
