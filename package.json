@@ -1,0 +1,37 @@
+{
+	"name": "ifdian",
+	"version": "0.0.1",
+	"description": "爱发电SDK",
+	"type": "module",
+	"main": "dist/index.cjs",
+	"types": "dist/index.d.ts",
+	"module": "dist/index.js",
+	"scripts": {
+		"build": "tsup"
+	},
+	"dependencies": {
+		"ky": "^1.5.0",
+		"super-fast-md5": "^1.0.3"
+	},
+	"tsup": {
+		"entry": [
+			"src/index.ts"
+		],
+		"format": [
+			"esm",
+			"cjs"
+		],
+		"clean": true,
+		"dts": true,
+		"treeshake": true,
+		"shims": true,
+		"minify": true
+	},
+	"files": [
+		"dist/*"
+	],
+	"devDependencies": {
+		"@microsoft/api-extractor": "^7.47.3",
+		"tsup": "^8.2.3"
+	}
+}
