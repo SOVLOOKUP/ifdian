@@ -101,10 +101,5 @@ export const queryPlans = async (userid: string): Promise<AfdianPlanInfo[]> => {
 export const createAfdian = async (opts: AfdianClientOptions) => {
   const afdian = new Afdian(opts);
   await afdian.init()
-  const pong = await afdian.ping();
-  if (pong.ec === 200) {
-    return afdian;
-  } else {
-    throw pong;
-  }
+  return afdian
 };
