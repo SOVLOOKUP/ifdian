@@ -18,10 +18,9 @@ export class Afdian {
   #builBody = (params?: AfdianRequestParams) =>
     JSON.stringify(buildSignRequest(this.#opts, params));
   #opts: AfdianClientOptions;
-  constructor(opts: AfdianClientOptions) {
-    this.#opts = opts;
-  }
-  init = async () => {
+
+  init = async (opts: AfdianClientOptions) => {
+    this.#opts = opts
     this.#request = (await import("ky")).default.create({
       prefixUrl: "https://ifdian.net/api/open",
       headers: {
@@ -99,7 +98,7 @@ export const queryPlans = async (userid: string): Promise<AfdianPlanInfo[]> => {
 };
 
 export const createAfdian = async (opts: AfdianClientOptions) => {
-  const afdian = new Afdian(opts);
-  await afdian.init()
+  const afdian = new Afdian();
+  await afdian.init(opts)
   return afdian
 };
