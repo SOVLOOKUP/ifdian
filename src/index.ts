@@ -57,7 +57,7 @@ export class Afdian {
     T extends typeof this.queryOrder | typeof this.querySponsor
   >(
     method: T,
-    params: Omit<Parameters<T>["0"], "page" | "per_page">
+    params?: Omit<Parameters<T>["0"], "page" | "per_page">
   ) => {
     const first = await method({
       page: 1,

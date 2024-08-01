@@ -1,6 +1,6 @@
 {
   "name": "ifdian",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "爱发电SDK",
   "type": "module",
   "main": "dist/index.cjs",
