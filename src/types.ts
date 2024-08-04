@@ -107,6 +107,7 @@ export interface AfdianOrderInfo {
   user_id: string;
   plan_id: string;
   month: number;
+  custom_order_id?: string;
   total_amount: string;
   show_amount: string;
   status: number;
